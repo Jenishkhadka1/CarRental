@@ -7,8 +7,8 @@ function initializeApp() {
         localStorage.setItem('users', JSON.stringify([
             {
                 id: 1,
-                username: 'ridewithjenish',
-                password: 'jenish123',
+                username: 'admin',
+                password: 'admin123',
                 email: 'admin@carental.com',
                 phone: '9841234567',
                 role: 'admin'
