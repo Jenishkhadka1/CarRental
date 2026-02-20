@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Cars - DriveEasy</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🚗 DriveEasy</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cars.html">Our Cars</a></li>
+                <li id="navDashboard" class="hidden"><a href="dashboard.html">Dashboard</a></li>
+                <li id="navAdmin" class="hidden"><a href="admin.html">Admin Panel</a></li>
+                <li id="navProfile" class="hidden"><a href="profile.html">Profile</a></li>
+                <div class="auth-section" id="authSection">
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </div>
+                <div class="auth-section hidden" id="logoutSection">
+                    <li id="userGreeting"></li>
+                    <li><button onclick="handleLogout()">Logout</button></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <h1 class="section-title">Our Vehicles</h1>
+
+        <div id="alertContainer"></div>
+
+        <!-- FILTER SECTION -->
+        <div class="filter-section">
+            <div class="filter-group">
+                <label for="categoryFilter">Category</label>
+                <select id="categoryFilter" onchange="applyFilters()">
+                    <option value="">All Categories</option>
+                    <option value="sedan">Sedan</option>
+                    <option value="suv">SUV</option>
+                    <option value="hatchback">Hatchback</option>
+                    <option value="luxury">Luxury</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="priceFilter">Max Price (Daily)</label>
+                <select id="priceFilter" onchange="applyFilters()">
+                    <option value="">All Prices</option>
+                    <option value="2000">Up to Rs. 2000</option>
+                    <option value="3000">Up to Rs. 3000</option>
+                    <option value="5000">Up to Rs. 5000</option>
+                    <option value="10000">Up to Rs. 10000</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="transmissionFilter">Transmission</label>
+                <select id="transmissionFilter" onchange="applyFilters()">
+                    <option value="">All Transmissions</option>
+                    <option value="Automatic">Automatic</option>
+                    <option value="Manual">Manual</option>
+                </select>
+            </div>
+
+            <button class="btn btn-secondary" onclick="resetFilters()">Reset Filters</button>
+        </div>
+
+        <!-- CARS GRID -->
+        <div id="carsContainer" class="cars-grid"></div>
+
+        <!-- NO RESULTS MESSAGE -->
+        <div id="noResults" class="text-center hidden" style="padding: 2rem;">
+            <p style="font-size: 1.2rem; color: var(--light-text);">No cars found matching your criteria.</p>
+            <button class="btn btn-secondary mt-2" onclick="resetFilters()">Clear Filters</button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2024 DriveEasy Car Rental Service. All rights reserved.</p>
+        <p>
+            <a href="#">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact Us</a>
+        </p>
+        <p>Email: info@driveasy.com | Phone: +977-1234567890</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/cars.js"></script>
+</body>
+</html>

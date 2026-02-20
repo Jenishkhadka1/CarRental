@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DriveEasy</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🚗 DriveEasy</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cars.html">Our Cars</a></li>
+                <li id="navDashboard" class="hidden"><a href="dashboard.html">Dashboard</a></li>
+                <li id="navAdmin" class="hidden"><a href="admin.html">Admin Panel</a></li>
+                <li id="navProfile" class="hidden"><a href="profile.html">Profile</a></li>
+                <div class="auth-section" id="authSection" class="hidden">
+                    <li><a href="login.html">Login</a></li>
+                </div>
+                <div class="auth-section hidden" id="logoutSection">
+                    <li id="userGreeting"></li>
+                    <li><button onclick="handleLogout()">Logout</button></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <h1 class="section-title">My Dashboard</h1>
+
+        <div id="alertContainer"></div>
+
+        <!-- USER INFO CARD -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">👤 Profile Information</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Username:</strong> <span id="userUsername">-</span></p>
+                    <p><strong>Email:</strong> <span id="userEmail">-</span></p>
+                    <p><strong>Phone:</strong> <span id="userPhone">-</span></p>
+                    <p><strong>Member Since:</strong> <span id="userSince">-</span></p>
+                </div>
+                <div class="card-footer">
+                    <a href="profile.html" class="btn btn-secondary w-100">Edit Profile</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">📊 Quick Stats</h3>
+                </div>
+                <div class="card-body">
+                    <p style="margin-bottom: 1rem;">
+                        <strong style="color: var(--primary-color); font-size: 1.5rem;" id="totalBookings">0</strong><br>
+                        <small style="color: var(--light-text);">Total Bookings</small>
+                    </p>
+                    <p style="margin-bottom: 1rem;">
+                        <strong style="color: var(--success-color); font-size: 1.5rem;" id="activeBookings">0</strong><br>
+                        <small style="color: var(--light-text);">Active Bookings</small>
+                    </p>
+                    <p>
+                        <strong style="color: var(--warning-color); font-size: 1.5rem;" id="completedBookings">0</strong><br>
+                        <small style="color: var(--light-text);">Completed Bookings</small>
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">🎁 Benefits</h3>
+                </div>
+                <div class="card-body">
+                    <ul style="list-style: none; color: var(--light-text); font-size: 0.9rem;">
+                        <li style="margin-bottom: 0.75rem;">✓ 24/7 Customer Support</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Free Insurance Coverage</li>
+                        <li style="margin-bottom: 0.75rem;">✓ Free Cancellation (48hrs)</li>
+                        <li>✓ VIP Member Rewards</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOOKINGS SECTION -->
+        <section class="section">
+            <h2 class="section-title">My Bookings</h2>
+
+            <!-- TABS -->
+            <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border-color);">
+                <button class="tab-btn active" onclick="switchTab('active')">Active Bookings</button>
+                <button class="tab-btn" onclick="switchTab('completed')">Completed</button>
+                <button class="tab-btn" onclick="switchTab('cancelled')">Cancelled</button>
+            </div>
+
+            <!-- ACTIVE BOOKINGS -->
+            <div id="activeTab" class="tab-content">
+                <div id="activeBookingsList"></div>
+            </div>
+
+            <!-- COMPLETED BOOKINGS -->
+            <div id="completedTab" class="tab-content hidden">
+                <div id="completedBookingsList"></div>
+            </div>
+
+            <!-- CANCELLED BOOKINGS -->
+            <div id="cancelledTab" class="tab-content hidden">
+                <div id="cancelledBookingsList"></div>
+            </div>
+
+            <!-- NO BOOKINGS MESSAGE -->
+            <div id="noBookings" class="card hidden">
+                <div class="card-body text-center">
+                    <p style="font-size: 1.2rem; color: var(--light-text);">No bookings found</p>
+                    <a href="cars.html" class="btn btn-primary mt-3">Browse Cars</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUICK ACTIONS -->
+        <section class="section">
+            <h2 class="section-title">Quick Actions</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <a href="cars.html" class="btn btn-primary" style="padding: 1rem; text-align: center;">
+                    🚗 Browse Cars
+                </a>
+                <a href="profile.html" class="btn btn-secondary" style="padding: 1rem; text-align: center;">
+                    👤 Edit Profile
+                </a>
+                <button onclick="downloadReceipt()" class="btn" style="background-color: var(--primary-color); color: white; padding: 1rem; text-align: center; cursor: pointer;">
+                    📄 Download Receipt
+                </button>
+                <button onclick="handleLogout()" class="btn btn-danger" style="padding: 1rem; text-align: center;">
+                    🚪 Logout
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- STYLES FOR TABS -->
+    <style>
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: block;
+        }
+
+        .tab-content.hidden {
+            display: none;
+        }
+
+        .booking-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .booking-card-icon {
+            font-size: 2.5rem;
+            text-align: center;
+        }
+
+        .booking-card-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .booking-card-detail {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .booking-card-detail-label {
+            font-size: 0.85rem;
+            color: var(--light-text);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.25rem;
+        }
+
+        .booking-card-detail-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .booking-card-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-direction: column;
+        }
+
+        .booking-card-actions button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+    </style>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2024 DriveEasy Car Rental Service. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

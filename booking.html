@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Car - DriveEasy</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🚗 DriveEasy</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cars.html">Our Cars</a></li>
+                <li id="navDashboard" class="hidden"><a href="dashboard.html">Dashboard</a></li>
+                <li id="navAdmin" class="hidden"><a href="admin.html">Admin Panel</a></li>
+                <li id="navProfile" class="hidden"><a href="profile.html">Profile</a></li>
+                <div class="auth-section" id="authSection" class="hidden">
+                    <li><a href="login.html">Login</a></li>
+                </div>
+                <div class="auth-section hidden" id="logoutSection">
+                    <li id="userGreeting"></li>
+                    <li><button onclick="handleLogout()">Logout</button></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container" style="max-width: 1000px;">
+        <h1 class="section-title">Book Your Car</h1>
+
+        <div id="alertContainer"></div>
+
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 2rem;">
+            <!-- BOOKING FORM -->
+            <div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Booking Details</h3>
+                    </div>
+
+                    <form id="bookingForm" onsubmit="handleBooking(event)">
+                        <div id="carDetails" class="card-body" style="background: var(--light-bg); border-radius: 4px; padding: 1rem; margin-bottom: 1.5rem;">
+                            <p style="text-align: center; color: var(--light-text);">Loading car details...</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="startDate">Start Date</label>
+                            <input type="date" id="startDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="endDate">End Date</label>
+                            <input type="date" id="endDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rentalDays">Rental Duration</label>
+                            <input type="text" id="rentalDays" disabled style="background: var(--light-bg); color: var(--light-text);">
+                            <small>Days will be calculated automatically</small>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="form-group">
+                            <label for="driverName">Full Name</label>
+                            <input type="text" id="driverName" placeholder="Your full name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="driverLicense">License Number</label>
+                            <input type="text" id="driverLicense" placeholder="Your driving license number" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="driverPhone">Contact Number</label>
+                            <input type="tel" id="driverPhone" placeholder="Your contact number" pattern="[0-9]{10}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pickupLocation">Pickup Location</label>
+                            <select id="pickupLocation" required>
+                                <option value="">Select a location</option>
+                                <option value="Kathmandu">Kathmandu</option>
+                                <option value="Pokhara">Pokhara</option>
+                                <option value="Lalitpur">Lalitpur</option>
+                                <option value="Bhaktapur">Bhaktapur</option>
+                                <option value="Baneshwor">Baneshwor</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="additionalNotes">Special Requests (Optional)</label>
+                            <textarea id="additionalNotes" placeholder="Any special requests or requirements..."></textarea>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal;">
+                                <input type="checkbox" id="agreeTerms" required>
+                                I agree with the rental agreement and insurance terms
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-success btn-block">Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- BOOKING SUMMARY -->
+            <div>
+                <div class="card" style="position: sticky; top: 100px;">
+                    <div class="card-header">
+                        <h3 class="card-title">Booking Summary</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <div style="margin-bottom: 1rem;">
+                            <strong style="color: var(--light-text); display: block; margin-bottom: 0.5rem;">Car</strong>
+                            <div style="font-size: 1.2rem; font-weight: bold;" id="summaryCarName">-</div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <strong style="color: var(--light-text); display: block; margin-bottom: 0.5rem;">Daily Rate</strong>
+                            <div style="font-size: 1.2rem; font-weight: bold;" id="summaryDailyRate">Rs. -</div>
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <strong style="color: var(--light-text); display: block; margin-bottom: 0.5rem;">Number of Days</strong>
+                            <div style="font-size: 1.2rem; font-weight: bold;" id="summaryDays">0</div>
+                        </div>
+
+                        <div class="divider"></div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <strong style="color: var(--light-text); display: block; margin-bottom: 0.5rem;">Total Cost</strong>
+                            <div style="font-size: 1.8rem; color: var(--success-color); font-weight: bold;" id="summaryTotal">Rs. 0</div>
+                            <small style="color: var(--light-text);">Plus applicable taxes</small>
+                        </div>
+
+                        <div style="background: #e0f2fe; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                            <strong style="color: #0c4a6e;">Included Features:</strong>
+                            <ul style="margin-top: 0.5rem; margin-left: 1.5rem; color: #0c4a6e; font-size: 0.9rem;">
+                                <li>Full Insurance Coverage</li>
+                                <li>24/7 Roadside Assistance</li>
+                                <li>Free Fuel Top-up</li>
+                                <li>Free Cancellation (48hrs)</li>
+                            </ul>
+                        </div>
+
+                        <p style="font-size: 0.85rem; color: var(--light-text); text-align: center;">
+                            ✓ Safe & Secure Booking<br>
+                            ✓ Best Price Guarantee<br>
+                            ✓ Instant Confirmation
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2024 DriveEasy Car Rental Service. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/booking.js"></script>
+</body>
+</html>

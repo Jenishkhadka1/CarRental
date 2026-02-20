@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - DriveEasy</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🚗 DriveEasy</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cars.html">Our Cars</a></li>
+                <li id="navDashboard" class="hidden"><a href="dashboard.html">Dashboard</a></li>
+                <li id="navAdmin" class="hidden"><a href="admin.html">Admin Panel</a></li>
+                <li id="navProfile" class="hidden"><a href="profile.html">Profile</a></li>
+                <div class="auth-section" id="authSection" class="hidden">
+                    <li><a href="login.html">Login</a></li>
+                </div>
+                <div class="auth-section hidden" id="logoutSection">
+                    <li id="userGreeting"></li>
+                    <li><button onclick="handleLogout()">Logout</button></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container" style="max-width: 700px;">
+        <h1 class="section-title">My Profile</h1>
+
+        <div id="alertContainer"></div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Profile Settings</h2>
+            </div>
+
+            <form id="profileForm" onsubmit="handleProfileUpdate(event)">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="profUsername">Username</label>
+                        <input type="text" id="profUsername" disabled style="background: var(--light-bg); color: var(--light-text);">
+                        <small>Username cannot be changed</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profEmail">Email Address</label>
+                        <input type="email" id="profEmail" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profPhone">Phone Number</label>
+                        <input type="tel" id="profPhone" placeholder="9841234567" pattern="[0-9]{10}" required>
+                        <small>10 digits required</small>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <h3 style="margin-bottom: 1.5rem;">Change Password (Optional)</h3>
+
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" placeholder="Enter current password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" placeholder="Enter new password (min. 6 characters)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm new password">
+                    </div>
+
+                    <small style="color: var(--light-text); display: block; margin-bottom: 1.5rem;">Leave password fields empty if you don't want to change</small>
+                </div>
+
+                <div class="card-footer">
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn btn-success" style="flex: 1;">Save Changes</button>
+                        <a href="dashboard.html" class="btn btn-secondary" style="flex: 1; text-align: center;">Back to Dashboard</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- DANGER ZONE -->
+        <div class="card" style="border-color: var(--danger-color);">
+            <div class="card-header" style="border-bottom-color: var(--danger-color);">
+                <h2 class="card-title" style="color: var(--danger-color);">⚠️ Danger Zone</h2>
+            </div>
+            <div class="card-body">
+                <p style="color: var(--light-text); margin-bottom: 1rem;">Delete your account and all associated data. This action cannot be undone.</p>
+                <button type="button" class="btn btn-danger" onclick="confirmDeleteAccount()">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2024 DriveEasy Car Rental Service. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

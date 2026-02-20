@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - DriveEasy</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🚗 DriveEasy</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li id="navDashboard"><a href="dashboard.html">Dashboard</a></li>
+                <li id="navAdmin"><a href="admin.html">Admin Panel</a></li>
+                <div class="auth-section" id="logoutSection">
+                    <li id="userGreeting"></li>
+                    <li><button onclick="handleLogout()">Logout</button></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <h1 class="section-title">🔐 Admin Control Panel</h1>
+
+        <div id="alertContainer"></div>
+
+        <!-- ADMIN STATS -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div style="font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem;">👥</div>
+                    <div style="font-size: 1.5rem; font-weight: bold;" id="totalUsers">0</div>
+                    <small style="color: var(--light-text);">Total Users</small>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div style="font-size: 2rem; color: var(--secondary-color); margin-bottom: 0.5rem;">🚗</div>
+                    <div style="font-size: 1.5rem; font-weight: bold;" id="totalCars">0</div>
+                    <small style="color: var(--light-text);">Total Cars</small>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div style="font-size: 2rem; color: var(--success-color); margin-bottom: 0.5rem;">📅</div>
+                    <div style="font-size: 1.5rem; font-weight: bold;" id="totalBookings">0</div>
+                    <small style="color: var(--light-text);">Total Bookings</small>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body text-center">
+                    <div style="font-size: 2rem; color: var(--warning-color); margin-bottom: 0.5rem;">💰</div>
+                    <div style="font-size: 1.5rem; font-weight: bold;" id="totalRevenue">Rs. 0</div>
+                    <small style="color: var(--light-text);">Total Revenue</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 2px solid var(--border-color);">
+            <button class="tab-btn active" onclick="switchAdminTab('cars')">🚗 Manage Cars</button>
+            <button class="tab-btn" onclick="switchAdminTab('bookings')">📅 All Bookings</button>
+            <button class="tab-btn" onclick="switchAdminTab('users')">👥 Users</button>
+        </div>
+
+        <!-- CARS MANAGEMENT TAB -->
+        <div id="carsTab" class="tab-content">
+            <div style="margin-bottom: 2rem;">
+                <button class="btn btn-primary" onclick="toggleAddCarForm()">➕ Add New Car</button>
+            </div>
+
+            <!-- ADD CAR FORM -->
+            <div id="addCarForm" class="card hidden" style="margin-bottom: 2rem;">
+                <div class="card-header">
+                    <h3 class="card-title">Add New Car</h3>
+                </div>
+                <form onsubmit="handleAddCar(event)">
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="carName">Car Name</label>
+                                <input type="text" id="carName" placeholder="e.g., Toyota Camry" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="carCategory">Category</label>
+                                <select id="carCategory" required>
+                                    <option value="">Select category</option>
+                                    <option value="sedan">Sedan</option>
+                                    <option value="suv">SUV</option>
+                                    <option value="hatchback">Hatchback</option>
+                                    <option value="luxury">Luxury</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="carPrice">Daily Price (Rs.)</label>
+                                <input type="number" id="carPrice" placeholder="2500" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="carSeats">Seats</label>
+                                <input type="number" id="carSeats" placeholder="5" min="1" max="9" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="carTransmission">Transmission</label>
+                                <select id="carTransmission" required>
+                                    <option value="">Select transmission</option>
+                                    <option value="Automatic">Automatic</option>
+                                    <option value="Manual">Manual</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="carFuel">Fuel Type</label>
+                                <select id="carFuel" required>
+                                    <option value="">Select fuel</option>
+                                    <option value="Petrol">Petrol</option>
+                                    <option value="Diesel">Diesel</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                            <div class="form-group full">
+                                <label for="carDescription">Description</label>
+                                <textarea id="carDescription" placeholder="Car description"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-success">Add Car</button>
+                        <button type="button" class="btn btn-secondary" onclick="toggleAddCarForm()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CARS LIST -->
+            <div id="carsListContainer"></div>
+        </div>
+
+        <!-- BOOKINGS TAB -->
+        <div id="bookingsTab" class="tab-content hidden">
+            <div id="bookingsListContainer"></div>
+        </div>
+
+        <!-- USERS TAB -->
+        <div id="usersTab" class="tab-content hidden">
+            <div id="usersListContainer"></div>
+        </div>
+    </div>
+
+    <!-- STYLES FOR ADMIN -->
+    <style>
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--light-text);
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: block;
+        }
+
+        .tab-content.hidden {
+            display: none;
+        }
+
+        .edit-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background-color: #0891b2;
+        }
+
+        .delete-btn {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background-color: #b91c1c;
+        }
+    </style>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2024 DriveEasy Car Rental Service. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

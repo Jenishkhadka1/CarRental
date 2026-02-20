@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DriveEasy - Car Rental Service</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- HEADER & NAVIGATION -->
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🚗 DriveEasy</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cars.html">Our Cars</a></li>
+                <li id="navDashboard" class="hidden"><a href="dashboard.html">Dashboard</a></li>
+                <li id="navAdmin" class="hidden"><a href="admin.html">Admin Panel</a></li>
+                <li id="navProfile" class="hidden"><a href="profile.html">Profile</a></li>
+                <div class="auth-section" id="authSection">
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="register.html">Register</a></li>
+                </div>
+                <div class="auth-section hidden" id="logoutSection">
+                    <li id="userGreeting"></li>
+                    <li><button onclick="handleLogout()">Logout</button></li>
+                </div>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Welcome to DriveEasy</h1>
+        <p>Your Perfect Ride Awaits - Premium Car Rental Service</p>
+        <a href="cars.html" class="btn btn-secondary">Browse Cars</a>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <!-- ALERTS -->
+        <div id="alertContainer"></div>
+
+        <!-- ABOUT SECTION -->
+        <section class="section">
+            <h2 class="section-title">About DriveEasy</h2>
+            <div class="card">
+                <div class="card-body">
+                    <p>DriveEasy is your trusted car rental service providing affordable, reliable, and convenient vehicle rental solutions for all your transportation needs. Whether you need a car for daily commute, weekend getaway, or long-term rental, we have the perfect vehicle for you.</p>
+                    <p style="margin-top: 1rem;">With a fleet of well-maintained vehicles in various categories, competitive pricing, and excellent customer service, we make car rental simple and accessible.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US -->
+        <section class="section">
+            <h2 class="section-title">Why Choose DriveEasy?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="font-size: 2rem; margin: 0;">🚗</h3>
+                        <h4 style="margin-top: 1rem;">Wide Selection</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Choose from our diverse fleet of vehicles including sedans, SUVs, hatchbacks, and luxury cars.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="font-size: 2rem; margin: 0;">💰</h3>
+                        <h4 style="margin-top: 1rem;">Competitive Pricing</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Affordable rates with transparent pricing. No hidden charges - pay only for what you use.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="font-size: 2rem; margin: 0;">⚡</h3>
+                        <h4 style="margin-top: 1rem;">Easy Booking</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Quick and convenient online booking system. Reserve your car in just a few clicks.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="font-size: 2rem; margin: 0;">🛡️</h3>
+                        <h4 style="margin-top: 1rem;">Safety & Support</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>All vehicles are well-maintained and insured. 24/7 customer support for peace of mind.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="font-size: 2rem; margin: 0;">🌍</h3>
+                        <h4 style="margin-top: 1rem;">Flexible Options</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Daily, weekly, and monthly rental options. Perfect for any duration of your travel.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 style="font-size: 2rem; margin: 0;">🎯</h3>
+                        <h4 style="margin-top: 1rem;">Best Service</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Professional staff and excellent customer service. Your satisfaction is our priority.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED CARS -->
+        <section class="section">
+            <h2 class="section-title">Featured Cars</h2>
+            <div class="cars-grid" id="featuredCars"></div>
+            <div class="text-center">
+                <a href="cars.html" class="btn btn-primary">View All Cars</a>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="section">
+            <h2 class="section-title">How It Works</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; text-align: center;">
+                <div>
+                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">1️⃣</div>
+                    <h4>Browse &amp; Select</h4>
+                    <p>Explore our fleet and choose the perfect car for your needs.</p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">2️⃣</div>
+                    <h4>Book &amp; Pay</h4>
+                    <p>Select your dates and complete the secure booking process.</p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">3️⃣</div>
+                    <h4>Pick Up &amp; Drive</h4>
+                    <p>Collect your car and enjoy your journey with DriveEasy.</p>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; color: var(--primary-color); margin-bottom: 1rem;">4️⃣</div>
+                    <h4>Return &amp; Review</h4>
+                    <p>Return the car and share your experience with us.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section class="section">
+            <h2 class="section-title">Customer Testimonials</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+                <div class="card">
+                    <div class="card-body">
+                        <p style="font-style: italic; margin-bottom: 1rem;">"Great service! The booking was easy and the car was in perfect condition. Highly recommended!"</p>
+                        <p><strong>- Rajesh Kumar</strong></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p style="font-style: italic; margin-bottom: 1rem;">"Best prices in town with excellent customer support. Will definitely book again!"</p>
+                        <p><strong>- Priya Singh</strong></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <p style="font-style: italic; margin-bottom: 1rem;">"Very convenient and hassle-free experience. DriveEasy made my trip memorable!"</p>
+                        <p><strong>- Amit Patel</strong></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section class="section">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="card">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="contactName">Your Name</label>
+                        <input type="text" id="contactName" placeholder="John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="contactEmail">Your Email</label>
+                        <input type="email" id="contactEmail" placeholder="john@example.com">
+                    </div>
+                    <div class="form-group full">
+                        <label for="contactMessage">Message</label>
+                        <textarea id="contactMessage" placeholder="Your message here..."></textarea>
+                    </div>
+                    <div class="form-group full">
+                        <button type="button" class="btn btn-primary btn-block" onclick="handleContactSubmit()">Send Message</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2024 DriveEasy Car Rental Service. All rights reserved.</p>
+        <p>
+            <a href="#">About</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact Us</a>
+        </p>
+        <p>Email: info@driveasy.com | Phone: +977-1234567890</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script src="js/index.js"></script>
+</body>
+</html>
