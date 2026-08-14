@@ -5,6 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Cars - DriveEasy</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Vehicle photos are kept on this page so this design does not affect other pages. */
+        #carsContainer .car-image {
+            height: 220px;
+            min-height: 0;
+            padding: 0;
+            overflow: hidden;
+            background: #e8edf2;
+        }
+
+        #carsContainer .car-image img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        #carsContainer .car-card:hover .car-image img {
+            transform: scale(1.05);
+        }
+    </style>
 </head>
 <body>
     <!-- HEADER & NAVIGATION -->
@@ -95,5 +117,109 @@
 
     <script src="js/app.js"></script>
     <script src="js/cars.js"></script>
+    <script>
+        // Rental vehicle photos, matched to the exact car names in the data.
+        const carPhotos = {
+            'Toyota Camry': 'https://www.buyatoyota.com/sharpr/vcr/adobe/assets/urn%3Aaaid%3Aaem%3A1fd1a265-d4ae-45bf-8dde-23bf4b6527e6/as/image.png',
+            'Honda CR-V': 'https://file.kelleybluebookimages.com/kbb/base/evox/CP/51634/2023-Honda-CR-V-front_51634_032_1849x844_BU_cropped.png?downsize=1200:*',
+            'Maruti Swift': 'https://imgd-ct.aeplcdn.com/1056x660/n/cw/ec/159099/swift-exterior-right-front-three-quarter.jpeg?isig=0&q=80',
+            'BMW 5 Series': 'https://www.bmw.in/content/dam/bmw/marketIN/bmw_in/all-models/5-series/2020/Interior-andexterior/520d-Luxury-Line-Front-Quarter.jpg.asset.1623072161437.jpg',
+            'Creta': 'https://imgd.aeplcdn.com/1200x900/n/cw/ec/45441/hyundai-new-creta-exterior1.jpeg',
+            'Honda City': 'https://imgd-ct.aeplcdn.com/1056x660/n/cw/ec/134287/city-exterior-left-front-three-quarter.jpeg?isig=0&q=75',
+            'Toyota Fortuner': 'https://stimg.cardekho.com/images/carexteriorimages/930x620/Toyota/Fortuner/10904/1749725488185/front-left-side-47.jpg?impolicy=resize&imwidth=890',
+            'Kia Seltos': 'https://cdni.autocarindia.com/ExtraImages/20220527045608_Kia%20Seltos.jpg',
+            'Hyundai Tucson': 'https://imgd-ct.aeplcdn.com/1056x660/n/cw/ec/106821/tucson-exterior-right-front-three-quarter-7.png?isig=0&q=80'
+        };
+
+        function getCarPhoto(car) {
+            return carPhotos[car.name] || carPhotos['Toyota Camry'];
+        }
+
+        // Adds the extended rental fleet once. It is saved in localStorage, so
+        // the existing filters, availability checks, and booking flow use it.
+        function addExtendedRentalFleet() {
+            const cars = JSON.parse(localStorage.getItem('cars')) || [];
+            const newCars = [
+                {
+                    name: 'Honda City', category: 'sedan', price: 2800, image: '🚗',
+                    seats: 5, transmission: 'Automatic', fuel: 'Petrol', available: true,
+                    description: 'Comfortable city sedan with a refined automatic drive'
+                },
+                {
+                    name: 'Toyota Fortuner', category: 'suv', price: 6500, image: '🚙',
+                    seats: 7, transmission: 'Automatic', fuel: 'Diesel', available: true,
+                    description: 'Premium seven-seat SUV for family trips and long journeys'
+                },
+                {
+                    name: 'Kia Seltos', category: 'suv', price: 3800, image: '🚙',
+                    seats: 5, transmission: 'Automatic', fuel: 'Petrol', available: true,
+                    description: 'Stylish, feature-rich SUV for comfortable everyday travel'
+                },
+                {
+                    name: 'Hyundai Tucson', category: 'suv', price: 5200, image: '🚙',
+                    seats: 5, transmission: 'Automatic', fuel: 'Diesel', available: true,
+                    description: 'Spacious premium SUV with a smooth highway ride'
+                }
+            ];
+
+            let nextId = Math.max(0, ...cars.map(car => car.id)) + 1;
+            newCars.forEach(car => {
+                if (!cars.some(existingCar => existingCar.name === car.name)) {
+                    cars.push({ ...car, id: nextId++ });
+                }
+            });
+
+            localStorage.setItem('cars', JSON.stringify(cars));
+        }
+
+        // Replaces the emoji renderer from js/cars.js for this page only.
+        function displayCars(cars = null) {
+            if (!cars) {
+                cars = getAllCars() || [];
+            }
+
+            const container = document.getElementById('carsContainer');
+            const noResults = document.getElementById('noResults');
+
+            if (cars.length === 0) {
+                container.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            container.innerHTML = cars.map(car => `
+                <div class="car-card">
+                    <div class="car-image">
+                        <img src="${getCarPhoto(car)}" alt="${car.name}" loading="lazy">
+                    </div>
+                    <div class="car-info">
+                        <div class="car-name">${car.name}</div>
+                        <span class="car-category">${car.category}</span>
+                        <div class="car-specs">
+                            <div class="spec-item">👥 ${car.seats} Seats</div>
+                            <div class="spec-item">⚙️ ${car.transmission}</div>
+                            <div class="spec-item">⛽ ${car.fuel}</div>
+                            <div class="spec-item">${car.available ? '✅ Available' : '❌ Booked'}</div>
+                        </div>
+                        <div class="car-price">Rs. ${car.price.toLocaleString()}<small>/day</small></div>
+                        <div class="car-description">${car.description}</div>
+                        <button class="btn btn-primary btn-block"
+                            onclick="handleBookCar(${car.id})"
+                            ${!car.available ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
+                            ${car.available ? 'Book Now' : 'Not Available'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // app.js initializes the data on window load. Registering after it
+        // ensures the extra vehicles are added before this page is rendered.
+        window.addEventListener('load', function() {
+            addExtendedRentalFleet();
+            displayCars();
+        });
+    </script>
 </body>
 </html>

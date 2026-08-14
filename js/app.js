@@ -10,7 +10,7 @@ function initializeApp() {
                 username: 'admin',
                 password: 'admin123',
                 email: 'admin@carental.com',
-                phone: '9841234567',
+                phone: '9818823817',
                 role: 'admin'
             },
             {
